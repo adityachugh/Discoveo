@@ -9,17 +9,21 @@ import com.parse.ParseObject;
  */
 public class Discoveo {
 
+
+    private String mObjectId;
     private String mTitle;
     private String mDetail;
     private double mRatingDouble;
     private ParseGeoPoint mLocation;
 
-    public Discoveo(String title, String detail, double rating){
+    public Discoveo(String objectId, String title, String detail, double rating){
+        mObjectId = objectId;
         mTitle = title;
         mDetail = detail;
         mRatingDouble = rating;
     }
     public Discoveo(ParseObject parseObject) {
+        mObjectId = parseObject.getObjectId();
         mTitle = parseObject.getString("title");
         mDetail = parseObject.getString("description");
         mRatingDouble = parseObject.getDouble("rating");
@@ -45,5 +49,9 @@ public class Discoveo {
 
     public double getRatingDouble() {
         return mRatingDouble;
+    }
+
+    public String getId(){
+        return mObjectId;
     }
 }

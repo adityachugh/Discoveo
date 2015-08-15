@@ -5,10 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.List;
+
+import javax.xml.transform.Result;
 
 /**
  * Created by akshaypall on 2015-08-15.
@@ -22,6 +25,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     private static final String TAG = "ResultsListAdapter";
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private final LinearLayout mItem;
         private final TextView mTitle;
         private final TextView mDetail;
         private final TextView mRatingText;
@@ -37,12 +41,14 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
             mDetail = (TextView) itemView.findViewById(R.id.discoveo_description);
             mRatingText = (TextView) itemView.findViewById(R.id.discoveo_rating_string);
             mImage = (de.hdodenhof.circleimageview.CircleImageView) itemView.findViewById(R.id.discoveo_image);
+            mItem = (LinearLayout)itemView.findViewById(R.id.result_feed_id);
         }
     }
 
     //TODO: create private fields for the list
     private List<Discoveo> mDiscoveos;
     private Context mContext;
+    private ResultListener mListener;
 
 
     @Override
@@ -61,8 +67,12 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         viewHolder.mRatingText.setText(discoveo.getRatingString());
         viewHolder.mImage.setImageResource(R.drawable.outside_of_student_design_centre);
 
-        double rating = discoveo.getRatingDouble();
-
+        viewHolder.mItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.pressedDiscoveo(discoveo);
+            }
+        });
 
     }
 
@@ -71,10 +81,11 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         return mDiscoveos.size();
     }
 
-    public ResultsListAdapter(Context context, List<Discoveo> discoveos) {
+    public ResultsListAdapter(Context context, List<Discoveo> discoveos, ResultListener listener) {
         //save the mPosts private field as what is passed in
         mContext = context;
         mDiscoveos = discoveos;
+        mListener = listener;
     }
 
     @Override
@@ -84,7 +95,12 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
 
     @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {
+        mListener = null;
         super.onViewDetachedFromWindow(holder);
+    }
+
+    public interface ResultListener {
+        void pressedDiscoveo(Discoveo discoveo);
     }
 }
 

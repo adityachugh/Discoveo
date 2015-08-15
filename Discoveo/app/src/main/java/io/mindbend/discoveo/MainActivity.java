@@ -1,5 +1,6 @@
 package io.mindbend.discoveo;
 
+import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -27,7 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends ActionBarActivity implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        ResultsListAdapter.ResultListener{
 
     private static final String TAG = "MainActivity";
 
@@ -57,7 +61,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
         discoveos = new ArrayList<>();
 
-        mAdapter = new ResultsListAdapter(this, discoveos);
+        mAdapter = new ResultsListAdapter(this, discoveos, this);
 
         RecyclerView discoveoListRecyclerView = (RecyclerView) findViewById(R.id.discoveos_list);
         discoveoListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -147,5 +151,14 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
                 mAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void pressedDiscoveo(Discoveo discoveo) {
+        Intent i = new Intent(MainActivity.this, DetailActivity.class);
+        i.putExtra("objectid", discoveo.getId());
+        i.putExtra("title", discoveo.getTitle());
+        i.putExtra("description", discoveo.getDetail());
+        i.putExtra("rating", discoveo.getRatingString());
     }
 }
