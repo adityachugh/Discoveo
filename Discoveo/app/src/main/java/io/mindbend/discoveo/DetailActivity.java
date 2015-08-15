@@ -24,6 +24,22 @@ public class DetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        //for the discoveo clicked
+        String objectId = getIntent().getStringExtra("objectid");
+        String title = getIntent().getStringExtra("title");
+        String description = getIntent().getStringExtra("description");
+        String rating = getIntent().getStringExtra("rating");
+
+        //elements
+        TextView discoveoName = (TextView)findViewById(R.id.location_name);
+        TextView discoveoDescription = (TextView)findViewById(R.id.location_description);
+        TextView discoveoRating = (TextView)findViewById(R.id.location_rating);
+
+        //setting data
+        discoveoName.setText(title);
+        discoveoDescription.setText(description);
+        discoveoRating.setText(rating);
+
         Button submitButton = (Button)findViewById(R.id.submit_review_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
