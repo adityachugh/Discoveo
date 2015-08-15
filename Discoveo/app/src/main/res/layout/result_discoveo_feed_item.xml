@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="@dimen/results_margin">
 
     <RelativeLayout
@@ -45,5 +45,11 @@
         android:text="A great place to learn to code node.js and make dank..."
         android:id="@+id/discoveo_description"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+    <View
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"/>
 
 </LinearLayout>
