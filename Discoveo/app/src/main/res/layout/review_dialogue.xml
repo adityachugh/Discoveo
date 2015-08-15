@@ -27,6 +27,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/review_text_dialogue"
         android:text="@string/place_holder_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
