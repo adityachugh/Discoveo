@@ -24,6 +24,7 @@ public class Discoveo {
         mDetail = parseObject.getString("description");
         mRatingDouble = parseObject.getDouble("rating");
         mLocation = parseObject.getParseGeoPoint("location");
+        mRatingDouble = parseObject.getDouble("rating");
     }
 
     public String getTitle(){
