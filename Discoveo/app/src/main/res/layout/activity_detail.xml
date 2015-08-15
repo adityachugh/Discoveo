@@ -1,9 +1,12 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context="io.mindbend.discoveo.DetailActivity">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,6 +14,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/location_image"
             android:layout_width="390dp"
             android:layout_height="175dp"/>
@@ -57,16 +61,17 @@
                 android:padding="16dp"
                 android:text="@string/place_holder_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-            
-            <ImageButton
-                android:id="@+id/directions_fab"
-                android:layout_width="@dimen/fab_size"
-                android:layout_height="@dimen/fab_size"/>
-
         </RelativeLayout>
     </LinearLayout>
-
-
-
-
 </ScrollView>
+    <ImageButton
+        android:layout_marginTop="151dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_directions"
+        android:background="@drawable/fab"
+        android:elevation="8dp"
+        android:id="@+id/directions_fab"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"/>
+</RelativeLayout>
