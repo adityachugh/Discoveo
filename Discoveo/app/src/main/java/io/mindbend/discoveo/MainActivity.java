@@ -15,6 +15,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.parse.Parse;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,15 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+
+        Parse.initialize(this, "ZPaJOrGD9cjkyJk9BCf28ZIfmqa0dZUkooZ5m70x", "dV2okMiM6Kul0I69zeI57DXPDsTJmCMWPArsbyB3");
+
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
