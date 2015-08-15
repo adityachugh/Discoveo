@@ -61,6 +61,9 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         viewHolder.mRatingText.setText(discoveo.getRatingString());
         viewHolder.mImage.setImageResource(R.drawable.outside_of_student_design_centre);
 
+        double rating = discoveo.getRatingDouble();
+
+
     }
 
     @Override

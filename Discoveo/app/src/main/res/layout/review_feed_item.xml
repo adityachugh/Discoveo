@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="@dimen/results_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="node_enthusiast"
+            android:id="@+id/reviewer_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+        <LinearLayout
+            android:layout_marginLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:text="4.7"
+                android:id="@+id/review_rating"
+                android:textColor="@color/primary"/>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A great place to learn to code node.js and make dank mememmememes."
+        android:id="@+id/review_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+    <View
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"/>
+
+</LinearLayout>
