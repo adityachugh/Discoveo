@@ -19,6 +19,7 @@ public class App extends Application {
             isLollipopOrHigher = true;
             Log.wtf("App", "is Lollipop or higher");
         }
+
     }
 
     public static boolean isLollipopOrHigher = false;
