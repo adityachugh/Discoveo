@@ -23,6 +23,7 @@
         <EditText
             android:inputType="number"
             android:layout_width="50dp"
+            android:id="@+id/edit_rating"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 

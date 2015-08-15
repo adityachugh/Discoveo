@@ -1,6 +1,7 @@
 package io.mindbend.discoveo;
 
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 /**
  * Created by rohitsharma on 2015-08-15.
@@ -17,8 +18,12 @@ public class Review {
         mRatingDouble = rating;
     }
 
-    public Review(ParseObject parseObject){
-        mReviewerName = parseObject.getParseUser("user").getString("username");
+    public Review(ParseObject parseObject) {
+        if (parseObject.getParseUser("user").getUsername()) {
+            mReviewerName = ParseUser.getCurrentUser().getUsername();
+        } else {
+            mReviewerName = parseObject.getParseUser("user").getUsername();
+        }
         mReviewText = parseObject.getString("review");
         mRatingDouble = parseObject.getDouble("rating");
     }

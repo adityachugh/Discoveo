@@ -26,6 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +57,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
         Parse.initialize(this, "ZPaJOrGD9cjkyJk9BCf28ZIfmqa0dZUkooZ5m70x", "dV2okMiM6Kul0I69zeI57DXPDsTJmCMWPArsbyB3");
 
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+        if (ParseUser.getCurrentUser() == null)
+            ParseUser.logInInBackground("bob", "password");
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -146,9 +146,10 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                for(ParseObject object : parseObjects) {
+                for (ParseObject object : parseObjects) {
                     Discoveo newDiscoveo = new Discoveo(object);
                     mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(newDiscoveo.getLocation().getLatitude(), newDiscoveo.getLocation().getLongitude()))
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker)));
 
                     mDiscoveos.add(newDiscoveo);
@@ -181,26 +182,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         i.putExtra("title", discoveo.getTitle());
         i.putExtra("description", discoveo.getDetail());
         i.putExtra("rating", discoveo.getRatingString());
+        startActivity(i);
     }
 
-    public void getReviews() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
-        query.whereEqualTo("")
-        query.setLimit(100);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                for(ParseObject object : parseObjects) {
-                    Discoveo newDiscoveo = new Discoveo(object);
-                    mMap.addMarker(new MarkerOptions()
-                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker)));
-
-                    mDiscoveos.add(newDiscoveo);
-                    Log.wtf("test", newDiscoveo.getTitle());
-
-                }
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-    }
 }

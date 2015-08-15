@@ -61,7 +61,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="1000dp"
                 android:id="@+id/review_list"
                 />
         </LinearLayout>
@@ -75,4 +75,25 @@
         android:id="@+id/directions_fab"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"/>
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="0dp"
+            android:hint="Enter a review"
+            android:id="@+id/enter_review_edittext"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/submit_review_button"
+            android:text="Submit"
+            android:background="@color/primary"
+            android:textColor="@android:color/white"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+    </LinearLayout>
 </RelativeLayout>

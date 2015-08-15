@@ -16,10 +16,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -53,6 +59,7 @@ public class DetailActivity extends ActionBarActivity {
 
 
         //set the adapter
+        mReviews = new ArrayList<>();
         mAdapter = new ReviewAdapter(this, mReviews);
         RecyclerView reviewList = (RecyclerView) findViewById(R.id.review_list);
         reviewList.setLayoutManager(new LinearLayoutManager(this));
@@ -65,10 +72,10 @@ public class DetailActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 EditText review = (EditText)findViewById(R.id.enter_review_edittext);
-                String reviewText = review.getText().toString();
+                final String reviewText = review.getText().toString();
 
                 LayoutInflater li = LayoutInflater.from(DetailActivity.this);
-                View addCommentView = li.inflate(R.layout.review_dialogue, null);
+                final View addCommentView = li.inflate(R.layout.review_dialogue, null);
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DetailActivity.this);
                 // set the dialog's view to alertdialog builder
@@ -83,7 +90,9 @@ public class DetailActivity extends ActionBarActivity {
                         .setPositiveButton("Post",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        //TODO: add review to parse then add to adapter and review
+                                        EditText rating = (EditText)addCommentView.findViewById(R.id.edit_rating);
+                                        final int ratingT = Integer.parseInt(rating.getText().toString());
+                                        postReview(ratingT, reviewText);
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -125,21 +134,38 @@ public class DetailActivity extends ActionBarActivity {
         ParseObject discoveo = ParseObject.createWithoutData("Discoveo", mObjectId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
         query.include("discoveo");
+        query.include("user");
         query.setLimit(100);
         query.whereEqualTo("discoveo", discoveo);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                for(ParseObject object : parseObjects) {
+                for (ParseObject object : parseObjects) {
                     Review review = new Review(object);
                     mReviews.add(review);
                 }
                 mAdapter.notifyDataSetChanged();
             }
         });
+    }
 
+    public void postReview(int ratingDouble, String review) {
+        ParseObject discoveo = ParseObject.createWithoutData("Discoveo", mObjectId);
 
+        final ParseObject preview = ParseObject.create("Review");
+        preview.add("discoveo", discoveo);
+        preview.add("rating", ratingDouble);
+        preview.add("review", review);
+        preview.add("user", ParseUser.getCurrentUser());
+        preview.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
 
+                mReviews.add(new Review(preview));
+                mAdapter.notifyDataSetChanged();
+
+            }
+        });
 
     }
 }
