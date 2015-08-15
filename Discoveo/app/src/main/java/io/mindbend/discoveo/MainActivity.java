@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -35,6 +36,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private List<Discoveo> discoveos;
     private double mLatitude;
     private double mLongitude;
+    private ResultsListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +60,11 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         discoveos.add(new Discoveo("Test", "detail", 4.0));
         discoveos.add(new Discoveo("Test", "detail", 4.0));
 
-        ResultsListAdapter adapter = new ResultsListAdapter(this, discoveos);
+        mAdapter = new ResultsListAdapter(this, discoveos);
 
         RecyclerView discoveoListRecyclerView = (RecyclerView) findViewById(R.id.discoveos_list);
         discoveoListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        discoveoListRecyclerView.setAdapter(adapter);
+        discoveoListRecyclerView.setAdapter(mAdapter);
         addGoogleAPIClient();
     }
 
@@ -75,6 +77,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     @Override
     public void onConnected(Bundle bundle) {
         getCurrentLocation();
+        getDiscoveos();
     }
 
     private void getCurrentLocation() {
@@ -139,8 +142,12 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 for(ParseObject object : parseObjects) {
-                    discoveos.add(new Discoveo(object));
+                    Discoveo newDiscoveo = new Discoveo(object);
+                    discoveos.add(newDiscoveo);
+                    Log.wtf("test", newDiscoveo.getTitle());
+
                 }
+                mAdapter.notifyDataSetChanged();
             }
         });
     }
