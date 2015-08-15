@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -20,3 +23,14 @@
         android:layout_weight="40"
         android:background="#FFFFFF"/>
 </LinearLayout>
+    <ImageButton
+        android:layout_marginTop="311dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_add_discoveo"
+        android:background="@drawable/fab"
+        android:elevation="8dp"
+        android:id="@+id/new_discoveo_fab"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"/>
+</RelativeLayout>
