@@ -11,14 +11,16 @@
             android:orientation="vertical">
 
             <ImageView
+                android:src="@drawable/outside_of_student_design_centre"
                 android:scaleType="centerCrop"
                 android:id="@+id/location_image"
                 android:layout_width="390dp"
-                android:layout_height="175dp"/>
+                android:layout_height="175dp"
+                android:transitionName="swag"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/location_info"
@@ -46,6 +48,14 @@
                             android:layout_height="wrap_content"
                             android:text="5.0"
                             android:textColor="@color/accent"/>
+                        <View
+                            android:layout_width="6dp"
+                            android:layout_height="match_parent"/>
+                        <ImageView
+                            android:src="@drawable/star_unfilled"
+                            android:id="@+id/star"
+                            android:layout_width="16dp"
+                            android:layout_height="match_parent"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -60,10 +70,10 @@
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
+                android:background="@android:color/white"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
-                android:id="@+id/review_list"
-                />
+                android:layout_height="wrap_content"
+                android:id="@+id/review_list"/>
         </LinearLayout>
     <ImageButton
         android:layout_marginTop="151dp"
@@ -78,6 +88,7 @@
 
     <LinearLayout
         android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

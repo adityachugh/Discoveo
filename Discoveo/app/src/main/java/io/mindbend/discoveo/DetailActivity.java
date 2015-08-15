@@ -1,11 +1,15 @@
 package io.mindbend.discoveo;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +17,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,6 +32,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class DetailActivity extends ActionBarActivity {
@@ -46,6 +52,8 @@ public class DetailActivity extends ActionBarActivity {
         String title = getIntent().getStringExtra("title");
         String description = getIntent().getStringExtra("description");
         String rating = getIntent().getStringExtra("rating");
+        final double latitude = getIntent().getDoubleExtra("lat", 0);
+        final double longitude = getIntent().getDoubleExtra("long", 0);
 
         //elements
         TextView discoveoName = (TextView)findViewById(R.id.location_name);
@@ -57,17 +65,28 @@ public class DetailActivity extends ActionBarActivity {
         discoveoDescription.setText(description);
         discoveoRating.setText(rating);
 
+        ImageButton direction = (ImageButton)findViewById(R.id.directions_fab);
+        direction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                startActivity(intent);
+            }
+        });
+
 
         //set the adapter
         mReviews = new ArrayList<>();
         mAdapter = new ReviewAdapter(this, mReviews);
+
         RecyclerView reviewList = (RecyclerView) findViewById(R.id.review_list);
         reviewList.setLayoutManager(new LinearLayoutManager(this));
         reviewList.setAdapter(mAdapter);
 
         setupReviews();
 
-        Button submitButton = (Button)findViewById(R.id.submit_review_button);
+        final Button submitButton = (Button)findViewById(R.id.submit_review_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +102,7 @@ public class DetailActivity extends ActionBarActivity {
 
                 TextView submitText = (TextView)addCommentView.findViewById(R.id.review_text_dialogue);
                 submitText.setText(reviewText);
+                submitButton.setText("");
 
                 // set dialog message
                 alertDialogBuilder
@@ -134,7 +154,6 @@ public class DetailActivity extends ActionBarActivity {
         ParseObject discoveo = ParseObject.createWithoutData("Discoveo", mObjectId);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
         query.include("discoveo");
-        query.include("user");
         query.setLimit(100);
         query.whereEqualTo("discoveo", discoveo);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -156,16 +175,16 @@ public class DetailActivity extends ActionBarActivity {
         preview.add("discoveo", discoveo);
         preview.add("rating", ratingDouble);
         preview.add("review", review);
-        preview.add("user", ParseUser.getCurrentUser());
+        preview.add("user", ParseUser.getCurrentUser().getUsername());
         preview.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-
-                mReviews.add(new Review(preview));
-                mAdapter.notifyDataSetChanged();
-
+                Log.wtf("test", "done");
             }
         });
+
+        mReviews.add(new Review(preview));
+        mAdapter.notifyDataSetChanged();
 
     }
 }

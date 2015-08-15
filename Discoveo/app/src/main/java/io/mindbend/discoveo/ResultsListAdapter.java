@@ -58,7 +58,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
         final Discoveo discoveo = mDiscoveos.get(i);
 
         //TODO: setup view
@@ -71,6 +71,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
             @Override
             public void onClick(View v) {
                 mListener.pressedDiscoveo(discoveo);
+                mListener.returnImage(viewHolder.mImage);
             }
         });
 
@@ -101,6 +102,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
 
     public interface ResultListener {
         void pressedDiscoveo(Discoveo discoveo);
+        void returnImage(de.hdodenhof.circleimageview.CircleImageView image);
     }
 }
 

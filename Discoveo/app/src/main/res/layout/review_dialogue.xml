@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="16dp">
 
     <TextView
-        android:text="New Review"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="New Review"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
-            android:text="Enter Rating Out of Five:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Enter Rating Out of Five:"/>
 
         <EditText
-            android:inputType="number"
-            android:layout_width="50dp"
             android:id="@+id/edit_rating"
-            android:layout_height="wrap_content"/>
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
     </LinearLayout>
 
     <TextView
         android:id="@+id/review_text_dialogue"
-        android:text="@string/place_holder_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/place_holder_text"/>
 
 </LinearLayout>

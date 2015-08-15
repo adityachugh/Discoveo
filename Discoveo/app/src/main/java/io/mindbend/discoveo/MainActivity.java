@@ -1,14 +1,23 @@
 package io.mindbend.discoveo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,9 +36,12 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback,
@@ -46,6 +58,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private double mLatitude;
     private double mLongitude;
     private ResultsListAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +84,58 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         discoveoListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         discoveoListRecyclerView.setAdapter(mAdapter);
         addGoogleAPIClient();
+
+        ImageButton addDiscoveo = (ImageButton) findViewById(R.id.new_discoveo_fab);
+        addDiscoveo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater li = LayoutInflater.from(MainActivity.this);
+                final View addCommentView = li.inflate(R.layout.create_discoveo_dialog, null);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                // set the dialog's view to alertdialog builder
+                alertDialogBuilder.setView(addCommentView);
+
+                // set dialog message
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Post",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        final ParseObject discoveo = ParseObject.create("Discoveo");
+
+                                        EditText disName = (EditText) addCommentView.findViewById(R.id.discoveo_name);
+                                        EditText disDescription = (EditText) addCommentView.findViewById(R.id.discoveo_des);
+
+                                        discoveo.add("title", disName.getText().toString());
+                                        discoveo.add("description", disDescription.getText().toString());
+                                        ParseGeoPoint point = new ParseGeoPoint(mLatitude, mLongitude);
+                                        discoveo.add("location", point);
+                                        discoveo.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                mDiscoveos.add(new Discoveo(discoveo));
+                                                mAdapter.notifyDataSetChanged();
+
+                                            }
+                                        });
+
+                                        mMap.addMarker(new MarkerOptions()
+                                                .position(new LatLng(mLatitude, mLongitude))
+                                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker)));
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
     }
 
     @Override
@@ -182,7 +247,13 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         i.putExtra("title", discoveo.getTitle());
         i.putExtra("description", discoveo.getDetail());
         i.putExtra("rating", discoveo.getRatingString());
+        i.putExtra("lat", discoveo.getLocation().getLatitude());
+        i.putExtra("long", discoveo.getLocation().getLongitude());
         startActivity(i);
     }
 
+    @Override
+    public void returnImage(CircleImageView image) {
+
+    }
 }

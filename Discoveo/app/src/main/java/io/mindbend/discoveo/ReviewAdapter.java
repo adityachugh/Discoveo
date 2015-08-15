@@ -49,7 +49,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final Review review = mReviews.get(i);
 
-        //TODO: setup view
+        viewHolder.mUsername.setText(review.getReviewerName());
+        viewHolder.mReviewText.setText(review.getReviewText());
+        viewHolder.mRatingText.setText(""+review.getRatingDouble());
 
     }
 

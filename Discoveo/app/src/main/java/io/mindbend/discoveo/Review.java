@@ -1,5 +1,7 @@
 package io.mindbend.discoveo;
 
+import android.util.Log;
+
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -19,11 +21,13 @@ public class Review {
     }
 
     public Review(ParseObject parseObject) {
-        if (parseObject.getParseUser("user").getUsername()) {
-            mReviewerName = ParseUser.getCurrentUser().getUsername();
-        } else {
-            mReviewerName = parseObject.getParseUser("user").getUsername();
-        }
+        //Log.wtf("Review", parseObject.getParseUser("user").toString());
+//        if (parseObject.getParseUser("user").getUsername() == null) {
+//            mReviewerName = ParseUser.getCurrentUser().getUsername();
+//        } else {
+//            mReviewerName = parseObject.getParseUser("user").getUsername();
+//        }
+        mReviewerName = parseObject.getString("user");
         mReviewText = parseObject.getString("review");
         mRatingDouble = parseObject.getDouble("rating");
     }
