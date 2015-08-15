@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +18,13 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
+
 
 public class DetailActivity extends ActionBarActivity {
+
+    private ReviewAdapter mAdapter;
+    private List<Review> mReviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +46,15 @@ public class DetailActivity extends ActionBarActivity {
         discoveoName.setText(title);
         discoveoDescription.setText(description);
         discoveoRating.setText(rating);
+
+
+        //set the adapter
+        mAdapter = new ReviewAdapter(this, mReviews);
+        RecyclerView reviewList = (RecyclerView) findViewById(R.id.review_list);
+        reviewList.setLayoutManager(new LinearLayoutManager(this));
+        reviewList.setAdapter(mAdapter);
+
+        //TODO: query parse data here
 
         Button submitButton = (Button)findViewById(R.id.submit_review_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
