@@ -44,6 +44,8 @@ public class ResultsListAdapter {
         public class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView mTitle;
             private final TextView mDetail;
+            private final TextView mRatingText;
+            private final de.hdodenhof.circleimageview.CircleImageView mImage;
 
             //TODO: create private fields for the elements within a single feed item
 
@@ -51,8 +53,10 @@ public class ResultsListAdapter {
                 super(itemView);
 
                 //getting all the elements part of the card, aside from the image
-                mTitle = (TextView) itemView.findViewById(R.id.org_title);
-                mDetail = (TextView) itemView.findViewById(R.id.org_banner_detail);
+                mTitle = (TextView) itemView.findViewById(R.id.discoveo_title);
+                mDetail = (TextView) itemView.findViewById(R.id.discoveo_description);
+                mRatingText = (TextView) itemView.findViewById(R.id.discoveo_rating_string);
+                mImage = (de.hdodenhof.circleimageview.CircleImageView) itemView.findViewById(R.id.discoveo_image);
             }
         }
 
@@ -72,7 +76,10 @@ public class ResultsListAdapter {
             final Discoveo discoveo = mDiscoveos.get(i);
 
             //TODO: setup view
-            viewHolder.mTitle.setText(org.getTitle());
+            viewHolder.mTitle.setText(discoveo.getTitle());
+            viewHolder.mDetail.setText(discoveo.getDetail());
+            viewHolder.mRating.setText(discoveo.getRatingText());
+
 
         }
 

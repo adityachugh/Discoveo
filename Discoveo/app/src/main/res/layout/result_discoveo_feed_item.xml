@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/results_margin">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/discoveo_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@color/primary"/>
+        <LinearLayout
+            android:layout_marginLeft="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_toRightOf="@id/discoveo_image"
+            android:orientation="vertical">
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Engineering 5"
+                android:id="@+id/discoveo_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:text="4.7"
+                    android:id="@+id/discoveo_rating_string"
+                    android:textColor="@color/primary"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
     <TextView
+        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Engineering 5"
-        android:id="@+id/discoveo_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+        android:text="A great place to learn to code node.js and make dank..."
+        android:id="@+id/discoveo_description"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>
