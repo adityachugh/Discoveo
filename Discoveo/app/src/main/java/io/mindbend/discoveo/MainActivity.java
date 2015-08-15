@@ -16,7 +16,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -31,13 +34,14 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
+        GoogleMap.OnMarkerClickListener,
         ResultsListAdapter.ResultListener{
 
     private static final String TAG = "MainActivity";
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    private List<Discoveo> discoveos;
+    private List<Discoveo> mDiscoveos;
     private double mLatitude;
     private double mLongitude;
     private ResultsListAdapter mAdapter;
@@ -59,9 +63,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        discoveos = new ArrayList<>();
+        mDiscoveos = new ArrayList<>();
 
-        mAdapter = new ResultsListAdapter(this, discoveos, this);
+        mAdapter = new ResultsListAdapter(this, mDiscoveos, this);
 
         RecyclerView discoveoListRecyclerView = (RecyclerView) findViewById(R.id.discoveos_list);
         discoveoListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -144,13 +148,28 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 for(ParseObject object : parseObjects) {
                     Discoveo newDiscoveo = new Discoveo(object);
-                    discoveos.add(newDiscoveo);
+                    mMap.addMarker(new MarkerOptions()
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker)));
+
+                    mDiscoveos.add(newDiscoveo);
                     Log.wtf("test", newDiscoveo.getTitle());
 
                 }
                 mAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        LatLng latLng = marker.getPosition();
+        Discoveo pressedDiscoveo = null;
+        for (Discoveo discoveo : mDiscoveos){
+            if (discoveo.getLocation().getLatitude() == latLng.latitude && discoveo.getLocation().getLongitude() == latLng.longitude)
+                pressedDiscoveo = discoveo;
+        }
+        pressedDiscoveo(pressedDiscoveo);
+        return true;
     }
 
     @Override
