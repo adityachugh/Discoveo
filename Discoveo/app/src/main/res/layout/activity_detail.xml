@@ -57,6 +57,11 @@
                 android:padding="16dp"
                 android:text="@string/place_holder_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+            
+            <ImageButton
+                android:id="@+id/directions_fab"
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"/>
 
         </RelativeLayout>
     </LinearLayout>
