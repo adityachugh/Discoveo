@@ -3,6 +3,8 @@ package io.mindbend.discoveo;
 import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +15,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -30,6 +35,16 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        List<Discoveo> discoveos = new ArrayList<>();
+        discoveos.add(new Discoveo("Test", "detail", 4.0));
+        discoveos.add(new Discoveo("Test", "detail", 4.0));
+        discoveos.add(new Discoveo("Test", "detail", 4.0));
+
+        ResultsListAdapter adapter = new ResultsListAdapter(this, discoveos);
+
+        RecyclerView discoveoListRecyclerView = (RecyclerView) findViewById(R.id.discoveos_list);
+        discoveoListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        discoveoListRecyclerView.setAdapter(adapter);
         addGoogleAPIClient();
     }
 
@@ -46,7 +61,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         double longitude = location.getLongitude();
     }
 
-    private void addGoogleAPIClient(){
+    private void addGoogleAPIClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
