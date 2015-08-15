@@ -1,0 +1,14 @@
+{
+  "global": {
+    "parseVersion": "1.5.0"
+  },
+  "applications": {
+    "Discoveo": {
+      "applicationId": "ZPaJOrGD9cjkyJk9BCf28ZIfmqa0dZUkooZ5m70x",
+      "masterKey": "APKwRNgIzOt4v5hJszHkTDEYwczZPsOAyZy2FGCX"
+    },
+    "_default": {
+      "link": "Discoveo"
+    }
+  }
+}
