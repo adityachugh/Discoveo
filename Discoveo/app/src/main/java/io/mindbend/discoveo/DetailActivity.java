@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
+
 import org.w3c.dom.Text;
 
 import java.util.List;
@@ -25,6 +27,8 @@ public class DetailActivity extends ActionBarActivity {
 
     private ReviewAdapter mAdapter;
     private List<Review> mReviews;
+    private String mObjectId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,7 @@ public class DetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_detail);
 
         //for the discoveo clicked
-        String objectId = getIntent().getStringExtra("objectid");
+        mObjectId = getIntent().getStringExtra("objectid");
         String title = getIntent().getStringExtra("title");
         String description = getIntent().getStringExtra("description");
         String rating = getIntent().getStringExtra("rating");
@@ -54,7 +58,7 @@ public class DetailActivity extends ActionBarActivity {
         reviewList.setLayoutManager(new LinearLayoutManager(this));
         reviewList.setAdapter(mAdapter);
 
-        //TODO: query parse data here
+        setupReviews();
 
         Button submitButton = (Button)findViewById(R.id.submit_review_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -115,5 +119,27 @@ public class DetailActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setupReviews() {
+        ParseObject discoveo = ParseObject.createWithoutData("Discoveo", mObjectId);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
+        query.include("discoveo");
+        query.setLimit(100);
+        query.whereEqualTo("discoveo", discoveo);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                for(ParseObject object : parseObjects) {
+                    Review review = new Review(object);
+                    mReviews.add(review);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+
+
     }
 }

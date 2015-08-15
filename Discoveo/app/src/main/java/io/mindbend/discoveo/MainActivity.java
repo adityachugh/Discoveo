@@ -172,6 +172,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         return true;
     }
 
+
+
     @Override
     public void pressedDiscoveo(Discoveo discoveo) {
         Intent i = new Intent(MainActivity.this, DetailActivity.class);
@@ -179,5 +181,26 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         i.putExtra("title", discoveo.getTitle());
         i.putExtra("description", discoveo.getDetail());
         i.putExtra("rating", discoveo.getRatingString());
+    }
+
+    public void getReviews() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
+        query.whereEqualTo("")
+        query.setLimit(100);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                for(ParseObject object : parseObjects) {
+                    Discoveo newDiscoveo = new Discoveo(object);
+                    mMap.addMarker(new MarkerOptions()
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker)));
+
+                    mDiscoveos.add(newDiscoveo);
+                    Log.wtf("test", newDiscoveo.getTitle());
+
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

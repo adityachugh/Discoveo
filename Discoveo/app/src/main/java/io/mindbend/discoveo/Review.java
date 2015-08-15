@@ -31,7 +31,7 @@ public class Review {
         return mReviewText;
     }
 
-    public double getRatingDouble(){
+    public double getRatingDouble() {
         return mRatingDouble;
     }
 
