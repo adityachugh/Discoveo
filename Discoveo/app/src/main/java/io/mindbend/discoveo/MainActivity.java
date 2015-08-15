@@ -56,9 +56,6 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         discoveos = new ArrayList<>();
-        discoveos.add(new Discoveo("Test", "detail", 4.0));
-        discoveos.add(new Discoveo("Test", "detail", 4.0));
-        discoveos.add(new Discoveo("Test", "detail", 4.0));
 
         mAdapter = new ResultsListAdapter(this, discoveos);
 
