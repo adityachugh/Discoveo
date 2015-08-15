@@ -4,6 +4,9 @@ import android.app.Application;
 import android.os.Build;
 import android.util.Log;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 /**
  * Created by rohitsharma on 2015-08-15.
  */
