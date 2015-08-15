@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context="io.mindbend.discoveo.DetailActivity">
 
         <LinearLayout
@@ -62,9 +63,33 @@
                     android:padding="16dp"
                     android:text="@string/place_holder_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:hint="Enter your review"
+            android:layout_weight="75"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:background="@color/primary"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:layout_weight="25"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
     <ImageButton
         android:layout_marginTop="151dp"
         android:layout_marginRight="16dp"
@@ -75,4 +100,5 @@
         android:id="@+id/directions_fab"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"/>
+
 </RelativeLayout>
