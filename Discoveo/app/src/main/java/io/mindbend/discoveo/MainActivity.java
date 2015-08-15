@@ -15,8 +15,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
+    private List<Discoveo> discoveos;
+    private double mLatitude;
+    private double mLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +53,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        List<Discoveo> discoveos = new ArrayList<>();
+        discoveos = new ArrayList<>();
         discoveos.add(new Discoveo("Test", "detail", 4.0));
         discoveos.add(new Discoveo("Test", "detail", 4.0));
         discoveos.add(new Discoveo("Test", "detail", 4.0));
@@ -67,9 +74,13 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     @Override
     public void onConnected(Bundle bundle) {
+        getCurrentLocation();
+    }
+
+    private void getCurrentLocation() {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
+        mLatitude = location.getLatitude();
+        mLongitude = location.getLongitude();
     }
 
     private void addGoogleAPIClient() {
@@ -117,5 +128,20 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getDiscoveos() {
+        ParseGeoPoint currentLocation = new ParseGeoPoint(mLatitude, mLongitude);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Discoveo");
+        query.whereWithinKilometers("location", currentLocation, 1);
+        query.setLimit(100);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                for(ParseObject object : parseObjects) {
+                    discoveos.add(new Discoveo(object));
+                }
+            }
+        });
     }
 }
