@@ -16,12 +16,17 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         var point = PFGeoPoint(latitude: 43.472449241038724, longitude: -80.5398904204398)
         
-        var query = PFQuery(className: "Discoveo")
-        query.whereKey("location", nearGeoPoint: point, withinKilometers: 1.0)
-        query.findObjectsInBackgroundWithBlock {
-            (results, error) -> Void in
-            println(results)
-        }
+//        var query = PFQuery(className: "Discoveo")
+//        query.whereKey("location", nearGeoPoint: point, withinKilometers: 1.0)
+//        query.findObjectsInBackgroundWithBlock {
+//            (results, error) -> Void in
+//            println(results)
+//        }
+        
+        var review = PFObject(className: "Review")
+        review["discoveo"] = PFObject(withoutDataWithClassName: "Discoveo", objectId: "47hdM6jEQn")
+        review["rating"] = 4
+        review.save()
     }
     
     override func didReceiveMemoryWarning() {
